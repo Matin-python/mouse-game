@@ -29,14 +29,12 @@ RED = (255, 0, 0)
 GREEN = (0, 255, 0)
 DARK_GREEN = (0, 150, 0)
 FOOD_COLOR = (30,90,230)
-
+GRAY = (200, 200, 200)
 WHITE = (255, 255, 255)
-
 BLUE = (0, 0, 255)
 DARK_BLUE = (0, 0, 200)
 YELLOW = (255, 190, 20)
-ORANGE = (255, 165, 0)
-GRAY = (200, 200, 200)
+ORANGE = (255, 100, 0)
 
 
 def quit_game():
@@ -75,9 +73,7 @@ class Game:
         self.player = Player()
         self.food = Food()        
 
-        self.running = True
-        self.game_over = False
-        self.paused = False
+        self.state = "playing"     # state = ["menu", "playing", "paused", "game_over"]
 
         self.screen = screen
 
@@ -85,16 +81,23 @@ class Game:
         self.fps = 30
 
     def run(self):
-        while self.running:
+        while self.state != "menu":
+
             self.process_events()
 
-            if not self.paused:
+            if self.state == "game_over":
+                self.draw_game_over()
+
+            elif self.state == "paused":
+                self.draw_pause_menu()
+
+            elif self.state == "playing":
                 self.update()
+                self.draw()
 
-            self.draw()
 
+            pygame.display.flip()
             self.clock.tick(self.fps)
-
 
     def process_events(self):
         for event in pygame.event.get():
@@ -103,12 +106,17 @@ class Game:
 
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_ESCAPE:
-                    self.paused = not self.paused
-
+                    if self.state == "paused":
+                        self.state = "playing"
+                    elif self.state == "playing":
+                        self.state = "paused"
 
     def update(self):
         self.player.update()
         self.player.eat(self.food)
+
+        if self.player.size <= 10:
+            self.state = "game_over"
 
     def draw(self):
         self.screen.fill(BLACK)
@@ -117,8 +125,6 @@ class Game:
         self.food.draw(self.screen)
 
         self.draw_ui()
-
-        pygame.display.flip()
 
 
     def draw_ui(self):
@@ -129,12 +135,36 @@ class Game:
         pygame.draw.line(self.screen, RED, (SCREEN_WIDTH-2,40), (SCREEN_WIDTH-2,SCREEN_HEIGHT), 5)
         pygame.draw.line(self.screen, RED, (0, SCREEN_HEIGHT-2), (SCREEN_WIDTH,SCREEN_HEIGHT-2), 5)
 
+    def draw_pause_menu(self):
+        self.screen.fill(BLACK)
+
+        draw_text("PAUSED", title_font, YELLOW, SCREEN_WIDTH//2, 180)
+
+        draw_text("Note: The game starts immediately after you pressed resume.", small_font, RED, SCREEN_WIDTH//2, 250)
+
+        if draw_button("Resume", SCREEN_WIDTH//2-150, 300, 120, 50, GREEN, DARK_GREEN):
+            self.state = "playing"
+
+        if draw_button("Main Menu", SCREEN_WIDTH//2+30, 300, 120, 50, BLUE, DARK_BLUE):
+            self.state = "menu"
+
+        draw_text("Press ESC to Resume", small_font, GRAY, SCREEN_WIDTH//2, 390)
+
+
+    def draw_game_over(self):
+        self.screen.fill(BLACK)
+        draw_text("GAME OVER!", title_font, RED, SCREEN_WIDTH/2, SCREEN_HEIGHT/2-70)
+        draw_text(f"Final Score: {self.player.score}", font, WHITE, SCREEN_WIDTH/2, SCREEN_HEIGHT/2 -30)
+
+        if draw_button("Play Again", SCREEN_WIDTH/2-130, SCREEN_HEIGHT/2, 120, 50, GREEN, DARK_GREEN):
+            self.reset()
+        if draw_button("Menu", SCREEN_WIDTH/2+10, SCREEN_HEIGHT/2, 120, 50, BLUE, DARK_BLUE):
+            self.state = "menu"
+                         
     def reset(self):
         self.player = Player()
         self.food = Food()
-
-        self.game_over = False
-        self.paused = False
+        self.state = "playing"
 
 class Player:
     def __init__(self):
@@ -197,16 +227,17 @@ def menu():
         screen.fill(BLACK)
         
         # title
-        draw_text(" Mouse Game ", title_font, GREEN, SCREEN_WIDTH/2, 150)
+        draw_text(" Mouse Game ", title_font, GREEN, SCREEN_WIDTH/2, 160)
         
         # buttons
-        if draw_button("start", SCREEN_WIDTH/2 -150, SCREEN_HEIGHT/2 -70, 100, 50, GREEN, DARK_GREEN):
+        if draw_button("start", SCREEN_WIDTH/2 -150, SCREEN_HEIGHT/2 -60, 100, 50, GREEN, DARK_GREEN):
             return 'game'
+        if draw_button("Exit", SCREEN_WIDTH/2 +50, SCREEN_HEIGHT/2 -60, 100, 50, ORANGE, YELLOW):
+            quit_game()
         
-        draw_text("Select Difficulty", font, GRAY, SCREEN_WIDTH/2, 200)
         
         # guide
-        draw_text("move your mause and try to eat food as much as you can.", small_font, GRAY, SCREEN_WIDTH/2, 350)
+        draw_text("Move your mouse and try to eat food as much as you can.", small_font, GRAY, SCREEN_WIDTH/2, 350)
         draw_text("Press ESC to Return to Menu", small_font, GRAY, SCREEN_WIDTH/2, 380)
         
         pygame.display.update()
