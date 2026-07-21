@@ -93,6 +93,7 @@ class Game:
         self.clock = pygame.time.Clock()
         self.fps = 30
 
+
     def run(self):
         while self.state != MENU:
 
@@ -115,6 +116,7 @@ class Game:
             pygame.display.flip()
             self.clock.tick(self.fps)
 
+
     def process_events(self):
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -126,6 +128,7 @@ class Game:
                         self.state = PLAYING
                     elif self.state == PLAYING:
                         self.state = PAUSED
+
 
     def update(self):
         self.player.update()
@@ -144,6 +147,7 @@ class Game:
         if self.player.size <= 10:
             self.state = GAME_OVER
 
+
     def draw(self):
         self.screen.fill(BLACK)
 
@@ -156,19 +160,42 @@ class Game:
     def draw_ui(self):
         draw_text("Score= " + str(self.player.score), font, RED, 70, 20)
 
-        # Countdown
-        if self.max_size_timer is not None:
-
-            elapsed = pygame.time.get_ticks() - self.max_size_timer
-            remaining = max(0, (self.win_delay - elapsed) / 1000)
-
-            draw_text( f"Victory in: {remaining:.1f}s", font, YELLOW, SCREEN_WIDTH // 2, 20)
-
         # draw_text("Difficulty= " + str(difficulty), font, RED, SCREEN_WIDTH-100, 20)
         pygame.draw.line(self.screen, RED, (0,40), (SCREEN_WIDTH,40), 5)
         pygame.draw.line(self.screen, RED, (0,40), (0, SCREEN_HEIGHT), 5)
         pygame.draw.line(self.screen, RED, (SCREEN_WIDTH-2,40), (SCREEN_WIDTH-2,SCREEN_HEIGHT), 5)
         pygame.draw.line(self.screen, RED, (0, SCREEN_HEIGHT-2), (SCREEN_WIDTH,SCREEN_HEIGHT-2), 5)
+        
+        self.draw_win_progress()
+
+
+    def draw_win_progress(self):
+        if self.max_size_timer is None:
+            return
+
+        elapsed = pygame.time.get_ticks() - self.max_size_timer
+        progress = min(elapsed / self.win_delay, 1)
+
+        remaining = max(0, (self.win_delay - elapsed) / 1000)
+
+        bar_width = 250
+        bar_height = 18
+
+        x = SCREEN_WIDTH // 2 - bar_width // 2
+        y = 12
+
+        # Countdown text
+        draw_text( f"Hold to Win: {remaining:.1f}s", small_font, WHITE, SCREEN_WIDTH // 2, y + 10)
+
+        # Background
+        pygame.draw.rect(self.screen, GRAY, (x, y + 20, bar_width , bar_height), border_radius=8)
+
+        # Filled portion
+        pygame.draw.rect(self.screen, YELLOW, (x, y + 20, int(bar_width * progress), bar_height), border_radius=8)
+
+        # Border
+        pygame.draw.rect(self.screen, WHITE, (x, y + 20, bar_width , bar_height), 2, border_radius=8)
+
 
     def draw_pause_menu(self):
         self.screen.fill(BLACK)
@@ -185,6 +212,7 @@ class Game:
 
         draw_text("Press ESC to Resume", small_font, GRAY, SCREEN_WIDTH//2, 390)
 
+
     def draw_win_screen(self):
         self.screen.fill(BLACK)
         draw_text("You Won!", title_font, RED, SCREEN_WIDTH/2, SCREEN_HEIGHT/2-70)
@@ -195,6 +223,7 @@ class Game:
         if draw_button("Menu", SCREEN_WIDTH/2+10, SCREEN_HEIGHT/2, 120, 50, BLUE, DARK_BLUE):
             self.state = MENU
 
+
     def draw_game_over(self):
         self.screen.fill(BLACK)
         draw_text("GAME OVER!", title_font, RED, SCREEN_WIDTH/2, SCREEN_HEIGHT/2-70)
@@ -204,11 +233,13 @@ class Game:
             self.reset()
         if draw_button("Menu", SCREEN_WIDTH/2+10, SCREEN_HEIGHT/2, 120, 50, BLUE, DARK_BLUE):
             self.state = MENU
-                         
+
+
     def reset(self):
         self.player = Player()
         self.food = Food()
         self.state = "playing"
+
 
 class Player:
     def __init__(self):
@@ -220,7 +251,8 @@ class Player:
         self.rect = pygame.Rect(self.loc_x, self.loc_y, self.size, self.size)
 
         self.score = 0
-        
+
+
     def update(self):
         half = self.size // 2
 
@@ -237,11 +269,13 @@ class Player:
 
         self.rect.center = (self.loc_x, self.loc_y)
 
+
     def eat(self, food):
         if self.rect.colliderect(food.rect):
             food.update()
             self.size += 15
             self.score += 1
+
 
     def draw(self, screen):
         pygame.draw.rect(screen, GREEN, self.rect)
@@ -256,15 +290,16 @@ class Food:
 
         self.rect = pygame.Rect(self.loc_x, self.loc_y, self.size, self.size)
 
+
     def update(self):
         self.loc_x = random.randint(40, SCREEN_WIDTH-40)
         self.loc_y = random.randint(50, SCREEN_HEIGHT-40) 
 
         self.rect = pygame.Rect(self.loc_x, self.loc_y, self.size, self.size)   
                                     
+
     def draw(self, screen):
         pygame.draw.rect(screen, FOOD_COLOR, self.rect)
-
 
 
 def menu():
