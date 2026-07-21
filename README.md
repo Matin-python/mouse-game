@@ -3,7 +3,7 @@
 A simple arcade game built with **Python** and **Pygame** where the player controls a shrinking square using the mouse. Collect food before your size reaches the minimum limit to survive and achieve the highest score possible.
 
 
-## 🎮 Gameplay
+## Gameplay
 
 The player follows the mouse cursor around the screen.
 
@@ -13,7 +13,7 @@ The player follows the mouse cursor around the screen.
 - Pause the game at any time using the **ESC** key.
 
 
-## ✨ Features
+## Features
 
 - 🖱️ Mouse-controlled gameplay
 - 🍎 Random food spawning
@@ -27,13 +27,13 @@ The player follows the mouse cursor around the screen.
 - 🧩 Object-Oriented Programming (OOP) design
 
 
-## 🛠️ Technologies Used
+## Technologies Used
 
 - Python 3
 - Pygame
 
 
-## 📂 Project Structure
+## Project Structure
 
 ```
 Mouse-Game/
@@ -50,7 +50,7 @@ Mouse-Game/
 ```
 
 
-## 🚀 Installation
+## Installation
 
 Clone the repository:
 
@@ -77,7 +77,7 @@ pip install -r requirements.txt
 ```
 
 
-## ▶️ How to Run
+## How to Run
 
 ```bash
 python mouse game.py
@@ -114,7 +114,7 @@ python mouse game.py
 
 
 
-## 🧠 Game Rules
+## Game Rules
 
 1. Move the green square using your mouse.
 2. Collect the blue food squares.
@@ -125,7 +125,7 @@ python mouse game.py
 5. The game ends when your size reaches the minimum limit.
 
 
-## 💡 Future Improvements
+## Future Improvements
 
 - 🎵 Sound effects and background music
 - 🏆 High score saving
@@ -139,7 +139,7 @@ python mouse game.py
 - 🎮 Controller support
 
 
-## 📦 Create an Executable (.exe)
+## Create an Executable (.exe)
 
 Install PyInstaller:
 
@@ -162,17 +162,17 @@ pyinstaller --onefile --windowed main.py
 The executable will be generated inside the `dist` folder.
 
 
-## 🤝 Contributing
+## Contributing
 
 Contributions, suggestions, and bug reports are welcome. Feel free to fork the repository and submit a pull request.
 
 
-## 📄 License
+## License
 
 This project is licensed under the MIT License.
 
 
-## 👨‍💻 Author
+## Author
 
 **Mohammad Reza Bakhshandeh**
 
