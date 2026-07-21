@@ -20,6 +20,7 @@ pygame.display.set_caption("Make Bigger")
 
 SCREEN_WIDTH = 800
 SCREEN_HEIGHT = 600
+TOP_MARGIN = 60
 
 screen = pygame.display.set_mode((SCREEN_WIDTH,SCREEN_HEIGHT))
 
@@ -158,13 +159,13 @@ class Game:
 
 
     def draw_ui(self):
-        draw_text("Score= " + str(self.player.score), font, RED, 70, 20)
+        draw_text("Score= " + str(self.player.score), font, WHITE, 70, TOP_MARGIN // 2)
 
         # draw_text("Difficulty= " + str(difficulty), font, RED, SCREEN_WIDTH-100, 20)
-        pygame.draw.line(self.screen, RED, (0,40), (SCREEN_WIDTH,40), 5)
-        pygame.draw.line(self.screen, RED, (0,40), (0, SCREEN_HEIGHT), 5)
-        pygame.draw.line(self.screen, RED, (SCREEN_WIDTH-2,40), (SCREEN_WIDTH-2,SCREEN_HEIGHT), 5)
-        pygame.draw.line(self.screen, RED, (0, SCREEN_HEIGHT-2), (SCREEN_WIDTH,SCREEN_HEIGHT-2), 5)
+        pygame.draw.line(self.screen, RED, (0, TOP_MARGIN), (SCREEN_WIDTH, TOP_MARGIN), 5)
+        pygame.draw.line(self.screen, RED, (0, TOP_MARGIN), (0, SCREEN_HEIGHT), 5)
+        pygame.draw.line(self.screen, RED, (SCREEN_WIDTH-2, TOP_MARGIN), (SCREEN_WIDTH-2, SCREEN_HEIGHT), 5)
+        pygame.draw.line(self.screen, RED, (0, SCREEN_HEIGHT-2), (SCREEN_WIDTH, SCREEN_HEIGHT-2), 5)
         
         self.draw_win_progress()
 
@@ -259,7 +260,7 @@ class Player:
         mouse_x, mouse_y = pygame.mouse.get_pos()
 
         self.loc_x = max(half, min(mouse_x, SCREEN_WIDTH - half))
-        self.loc_y = max(40 + half, min(mouse_y, SCREEN_HEIGHT - half))
+        self.loc_y = max(TOP_MARGIN + half, min(mouse_y, SCREEN_HEIGHT - half))
         
         #set max and min size for object
         self.size -= 0.5
@@ -286,14 +287,14 @@ class Food:
         self.size = 15
 
         self.loc_x = random.randint(40, SCREEN_WIDTH-40)
-        self.loc_y = random.randint(50, SCREEN_HEIGHT-40)
+        self.loc_y = random.randint(TOP_MARGIN + 10, SCREEN_HEIGHT - 40)
 
         self.rect = pygame.Rect(self.loc_x, self.loc_y, self.size, self.size)
 
 
     def update(self):
         self.loc_x = random.randint(40, SCREEN_WIDTH-40)
-        self.loc_y = random.randint(50, SCREEN_HEIGHT-40) 
+        self.loc_y = random.randint(TOP_MARGIN + 10, SCREEN_HEIGHT - 40)
 
         self.rect = pygame.Rect(self.loc_x, self.loc_y, self.size, self.size)   
                                     
@@ -314,10 +315,13 @@ def menu():
             return "start"
         if draw_button("Exit", SCREEN_WIDTH/2 +50, SCREEN_HEIGHT/2 -60, 100, 50, ORANGE, YELLOW):
             return "exit"
-        
+
         # guide
-        draw_text("Move your mouse and try to eat food as much as you can.", small_font, GRAY, SCREEN_WIDTH/2, 350)
-        draw_text("Press ESC to Return to Menu", small_font, GRAY, SCREEN_WIDTH/2, 380)
+        draw_text("Move your mouse to control the green square.", small_font, GRAY, SCREEN_WIDTH/2, 350)
+        draw_text("Collect blue food to grow larger.", small_font, GRAY, SCREEN_WIDTH/2, 380)
+        draw_text("If your size reaches the minimum, you lose.", small_font, GRAY, SCREEN_WIDTH/2, 410)
+        draw_text("Reach the maximum size and hold it for 3 seconds to win!", small_font, GRAY, SCREEN_WIDTH/2, 440)
+        draw_text("Press ESC to Pause and Resume", small_font, GRAY, SCREEN_WIDTH/2, 470)
         
         pygame.display.update()
         
