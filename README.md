@@ -1,30 +1,38 @@
-# 🖱️ Mouse Game (Python & Pygame)
+# 📈 Make Bigger (Python & Pygame)
 
-A simple arcade game built with **Python** and **Pygame** where the player controls a shrinking square using the mouse. Collect food before your size reaches the minimum limit to survive and achieve the highest score possible.
+A fast-paced arcade game built with **Python** and **Pygame** where you control a green square using your mouse. Collect food to grow larger, survive as your size continuously shrinks, stay inside the game area, and hold the maximum size long enough to win.
 
 
 ## Gameplay
 
-The player follows the mouse cursor around the screen.
+Control the green square with your mouse and collect the blue food before you become too small.
 
-- Your square gradually shrinks over time.
-- Collect food to increase your size and earn points.
-- If your size becomes too small, the game ends.
-- Pause the game at any time using the **ESC** key.
+- 📉 Your size gradually decreases over time.
+- 🍎 Eating food increases your size and your score.
+- 🚫 You cannot leave the play area.
+- 🏆 Reach the maximum size and hold it for **3 seconds** to win.
+- 💀 If your size reaches the minimum value, the game is over.
+- ⏸️ Press **ESC** at any time to pause or resume the game.
 
 
 ## Features
 
 - 🖱️ Mouse-controlled gameplay
-- 🍎 Random food spawning
+- 🍎 Randomly spawning food
 - 📈 Live score counter
+- 📏 Dynamic player size
+  - Grow by collecting food
+  - Gradually shrink over time
+- 🚫 Play area boundaries
+- ⏳ On-screen victory countdown timer
+- 🏆 Victory condition
+  - Reach the maximum size
+  - Hold it for 3 seconds to win
+- 💀 Game Over screen
 - ⏸️ Pause menu
 - ▶️ Resume game
 - 🔄 Play Again option
 - 🏠 Return to Main Menu
-- 💀 Game Over screen
-- 🎨 Simple and clean user interface
-- 🧩 Object-Oriented Programming (OOP) design
 
 
 ## Technologies Used
@@ -35,15 +43,16 @@ The player follows the mouse cursor around the screen.
 
 ## Project Structure
 
-```
-Mouse-Game/
+```text
+Make-Bigger/
 │
-├── mouse game.py
+├── make_bigger.py
 ├── screenshots/
 │   ├── menu.png
 │   ├── gameplay.png
 │   ├── pausemenu.png
-│   └── gameover.png
+│   ├── gameover.png
+│   └── victory.png
 ├── LICENSE
 ├── requirements.txt
 └── README.md
@@ -55,13 +64,13 @@ Mouse-Game/
 Clone the repository:
 
 ```bash
-git clone https://github.com/Matin-python/Mouse-Game.git
+git clone https://github.com/Matin-python/Make-Bigger.git
 ```
 
 Move into the project folder:
 
 ```bash
-cd Mouse-Game
+cd Make-Bigger
 ```
 
 Install the required package:
@@ -80,21 +89,40 @@ pip install -r requirements.txt
 ## How to Run
 
 ```bash
-python mouse game.py
+python make_bigger.py
 ```
 
 
-## 🎮 Controls
+## How to Play
 
-| Action | Key |
-|---------|-----|
+1. Move your mouse to control the green square.
+2. Collect the blue food to grow larger and earn points.
+3. Your size continuously decreases over time.
+4. Stay inside the red game boundaries.
+5. If your size reaches the minimum value, the game ends.
+6. Reach the maximum size and hold it for **3 seconds** to win.
+7. Press **ESC** to pause or resume the game.
+
+
+## Controls
+
+| Action | Input |
+|---------|-------|
 | Move Player | Mouse |
 | Pause / Resume | ESC |
 | Menu Navigation | Mouse |
 
 
+## Game States
 
-## 📷 Screenshots
+- 🏠 Main Menu
+- ▶️ Playing
+- ⏸️ Paused
+- 🏆 Victory
+- 💀 Game Over
+
+
+## Screenshots
 
 ### Main Menu
 
@@ -112,34 +140,14 @@ python mouse game.py
 
 ![Game Over](screenshots/gameover.png)
 
+### Victory Screen
+
+![Victory](screenshots/victory.png)
 
 
-## Game Rules
+## Building an Executable (.exe)
 
-1. Move the green square using your mouse.
-2. Collect the blue food squares.
-3. Every food collected:
-   - Increases your size.
-   - Increases your score.
-4. Your size continuously decreases over time.
-5. The game ends when your size reaches the minimum limit.
-
-
-## Future Improvements
-
-- 🎵 Sound effects and background music
-- 🏆 High score saving
-- ⚡ Multiple difficulty levels
-- 🍎 Different food types with special abilities
-- 💥 Obstacles and hazards
-- ✨ Animations and particle effects
-- 🖼️ Custom sprites
-- 🌐 Fullscreen support
-- ⚙️ Settings menu
-- 🎮 Controller support
-
-
-## Create an Executable (.exe)
+You can package the game into a standalone Windows executable using **PyInstaller**.
 
 Install PyInstaller:
 
@@ -147,19 +155,30 @@ Install PyInstaller:
 pip install pyinstaller
 ```
 
-Create a single executable:
+Create the executable:
 
 ```bash
-pyinstaller --onefile main.py
+pyinstaller --onefile --windowed make_bigger.py
 ```
 
-Or create a windowed executable (without a console window):
+The executable will be created inside the `dist` folder.
 
-```bash
-pyinstaller --onefile --windowed main.py
-```
 
-The executable will be generated inside the `dist` folder.
+## Future Improvements
+
+- 🎨 Custom player sprite
+- 🍎 Animated food
+- 🔊 Sound effects and background music
+- ⭐ High score saving
+- ⚡ Multiple difficulty levels
+- 🧱 Random obstacles
+- ✨ Particle effects
+- 🎯 Achievement system
+- 🖥️ Fullscreen mode
+- 🎮 Controller support
+- 💾 Save game statistics
+- 🌟 Visual countdown effects during the victory timer
+- 🎵 Background music and menu animations
 
 
 ## Contributing
@@ -178,4 +197,4 @@ This project is licensed under the MIT License.
 
 Electrical Engineering (Electronics) Graduate
 
-Interested in Python Development, Computer Vision, Machine Learning, and Artificial Intelligence.
+Interested in Python Development, Game Development, Computer Vision, Machine Learning, Deep Learning, and Artificial Intelligence.
