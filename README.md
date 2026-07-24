@@ -158,7 +158,7 @@ pip install pyinstaller
 Create the executable:
 
 ```bash
-pyinstaller --onefile --windowed make_bigger.py
+pyinstaller --onefile --windowed make bigger.py
 ```
 
 The executable will be created inside the `dist` folder.
